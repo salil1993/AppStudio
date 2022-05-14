@@ -19,6 +19,7 @@ crossIcon:require("../../assets/crossIcon.png"),
 categories:require("../../assets/categories.png"),
 cart:require("../../assets/cart.png"),
 food:require("../../assets/food.jpeg"),
+menu_back:require("../../assets/menu-back.jpeg")
 }
 
 export default images;

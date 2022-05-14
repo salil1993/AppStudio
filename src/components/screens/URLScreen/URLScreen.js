@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import{View,SafeAreaView, StatusBar, Text, Image,TouchableOpacity} from 'react-native';
+import{View,SafeAreaView, StatusBar, Text, Image,TouchableOpacity,ImageBackground} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {Colors, Images, Fonts} from '../../../theme';
 import { InputWithLabel, Button } from '../../common';
@@ -23,17 +23,17 @@ export const URLScreen = (props) =>{
 
     const saveurlfunc = () => {
       if(website.length == 0){
-        showMessage({
-            message: 'Enter Website url',
-            backgroundColor: 'red',
-            autoHide: true,
-            type: 'success',
-            onPress: () => {
-              console.log('view pressed');
-            },
-          });
+        // showMessage({
+        //     message: 'Enter Website url',
+        //     backgroundColor: 'red',
+        //     autoHide: true,
+        //     type: 'success',
+        //     onPress: () => {
+        //       console.log('view pressed');
+        //     },
+        //   });
       }else{
-        Singelton.getInstance().saveData(COMMON_URL, website)
+     //   Singelton.getInstance().saveData(COMMON_URL, website)
         Actions.Login();
       }
 
@@ -42,14 +42,19 @@ export const URLScreen = (props) =>{
 
     return(
        <>
+       <ImageBackground source={Images.menu_back}
+         style={{height: null,
+          width: '100%',
+          resizeMode: "cover",
+          flex: 1}}>
         <SafeAreaView style={styles.root}>
         <StatusBar backgroundColor={'white'} barStyle="light-content" />
         <View style={[styles.ViewMainContainer]}>
-          <Text style={[styles.HeaderText, ,]}>Welcome to FoodBuzz</Text>
+          <Text style={[styles.HeaderText, ,]}>Welcome to AppStudio99 Mobile POS</Text>
 
           <Image style={{width: 320, height: 110}} source={Images.logo} />
           <Text style={[styles.SubHeaderText]}>
-            Log in now to eat your delicious Food !
+            Configure to get started with awesome features!
           </Text>
           <View>
             <InputWithLabel
@@ -60,7 +65,6 @@ export const URLScreen = (props) =>{
                 color: 'white',
               }}
               color={'white'}
-              testID={'Email'}
               editable={true}
               label={'Website Address'}
               placeholderTextColor={'white'}
@@ -74,10 +78,11 @@ export const URLScreen = (props) =>{
               onSubmitEditing={() => {}}
             />
             </View>
-            <Button containerStyle={{marginTop:50}} text={'Save'} onPress={() => saveurlfunc()} />
+            <Button containerStyle={{marginTop:50}} text={'Save'} onPress={() => Actions.Login()} />
             </View>
 
         </SafeAreaView>
+        </ImageBackground>
         </>
         
        

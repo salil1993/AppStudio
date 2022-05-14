@@ -24,7 +24,7 @@ export default StyleSheet.create({
   title: {
     fontWeight: 'bold',
     alignItems:'flex-start',
-    fontSize: 18,
+    fontSize: 14,
     color: 'green',
   },
   subtitle: {

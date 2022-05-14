@@ -3,8 +3,8 @@ import { Colors, Fonts } from "../../../theme";
 
 export default StyleSheet.create({
     root:{
-        backgroundColor:Colors.backgroundcolor,
         flex:1,
+        backgroundColor:'#fff',opacity:0.9,
     },
     body: {
         justifyContent: 'center',
@@ -17,19 +17,25 @@ export default StyleSheet.create({
         backgroundColor: Colors.PrimaryDark,
     },
     HeaderText: {
-        marginLeft: 16,
+        marginLeft: 5,
         marginTop: 20,
-        fontSize: 22,
+        marginBottom: 30,
+        fontSize: 18,
+        fontWeight:"bold",
         color: 'red',
         alignSelf:'center',
         fontFamily:'Coachin',
       //  fontFamily: Fonts.PoppinsSemiBold,
     },
     SubHeaderText: {
-        fontWeight: '400',
-        fontSize: 16,
+        fontWeight: 'bold',
+        fontSize: 14,
         color: 'black',
+        marginLeft:0,
+        marginRight:0,
+        padding:0,
         marginTop:30,
+        marginBottom:20,
         alignSelf:'center',
         fontFamily: Fonts.PoppinsRegular,
     },

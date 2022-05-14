@@ -12,7 +12,10 @@ import {Actions} from 'react-native-router-flux';
 import {Colors, Images, Fonts} from '../../../theme';
 import styles from './MenuStyle';
 import {HeaderMain} from '../../common';
-
+import { Full_Menu } from '../../../Redux/Actions'
+import {useSelector, useDispatch} from 'react-redux';
+import Singelton from '../../../Singleton'
+import * as  Constants from '../../../Constants'
 const initialstate = [
   {
     id: '0',
@@ -109,13 +112,45 @@ const initialstate = [
   },
 ];
 
-export const Menu = () => {
-
+export const Menu = (props) => {
+  let currentQty =0;
+  const dispatch = useDispatch();
+  const [refresh, toggleRefresh] = useState(new Date());
   const [initialdata, setData] = useState(initialstate);
   const [dataArray, setDataArray] = useState([]);
   const [cartItems, setCartItems] = useState('');
   const [sectionTitle, setsectionTitle] = useState('');
+  const [FullMenuList, setFullMenuList] = useState([]);
 
+
+  const getFullMenu = () => {  
+    Singelton.getInstance().getData(Constants.USERTOKEN)
+    .then(res => {      
+     
+      dispatch(Full_Menu(res))
+      .then(response => {
+        console.log("getFullMenu=>",response.object);
+        setFullMenuList(response.object.menuList);
+      })
+      .catch(error => {
+        console.log('getFullMenuerror', error);
+      });
+    });  
+    
+  };
+
+
+  useEffect(() => {
+    var currentRoute = props.navigation.routeName;
+    getFullMenu()
+    props.navigation.addListener('didFocus', event => {
+      if (currentRoute === event.routeName) {
+        toggleRefresh(new Date());
+
+      }
+    });
+
+  }, [refresh]);
 
   const selectHandler = (index, value) => {
     const newItems = initialdata;
@@ -128,14 +163,12 @@ export const Menu = () => {
     getAddedValues();
   };
 
-  const quantityHandler = (action, index) => {
-    const newItems = [...initialdata];
-    let currentQty = newItems[index]['qty'];
+  const quantityHandler = (action, id) => {
+    const newItems = [...FullMenuList];
     if (action == 'more') {
-      newItems[index]['qty'] = currentQty + 1;
+      newItems[id] = currentQty + 1;
     } else {
-      newItems[index]['qty'] =
-        currentQty >= 1 ? currentQty - 1 : (newItems[index].checked = 0);
+      newItems[id] = currentQty >= 1 ? currentQty - 1 : (newItems[id].checked = 0);
     }
     setCartItems(newItems);
   };
@@ -156,11 +189,11 @@ export const Menu = () => {
   const _renderItem = ({item, index}) => {
     return (
       <View style={[styles.item, {width: '100%'}]}>
-        <View style={{width: '40%'}}>
+        <View style={{width: '30%'}}>
           <Image
             style={{
-              height: 100,
-              width: 100,
+              height: 80,
+              width: 80,
               marginLeft: 20,
               borderRadius: 20,
             }}
@@ -169,11 +202,11 @@ export const Menu = () => {
         </View>
         <View
           style={{
-            width: '30%',
+            width: '40%',
             marginLeft: 10,
           }}>
-          <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.txt_price}>Rs. 520</Text>
+          <Text style={styles.title}>{item.itemName}</Text>
+          <Text style={styles.txt_price}>Rs. {item.rate}</Text>
         </View>
         <View style={{width: '30%', alignItems: 'center'}}>
           {item.checked == 0 || item.qty < 0 ? (
@@ -205,7 +238,7 @@ export const Menu = () => {
                 alignItems: 'center',
                 justifyContent: 'space-evenly',
               }}>
-              <TouchableOpacity onPress={() => quantityHandler('less', index)}>
+              <TouchableOpacity onPress={() => quantityHandler('less', item.id)}>
                 <Text
                   style={{color: 'white', fontSize: 26, fontWeight: 'bold'}}>
                   {' '}
@@ -214,10 +247,10 @@ export const Menu = () => {
               </TouchableOpacity>
 
               <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>
-                {item.qty}
+                {currentQty}
               </Text>
 
-              <TouchableOpacity onPress={() => quantityHandler('more', index)}>
+              <TouchableOpacity onPress={() => quantityHandler('more', item.id)}>
                 <Text
                   style={{color: 'white', fontSize: 22, fontWeight: 'bold'}}>
                   +
@@ -237,10 +270,10 @@ export const Menu = () => {
           cart={() => Actions.currentScene != 'Cart' && Actions.Cart({addeditem:dataArray})}
         />
         <View style={{height: '100%'}}>
-          <View style={{height: '85%'}}>
-            {initialdata != null || initialdata != undefined ? (
+          <View style={{}}>
+            {FullMenuList != null || FullMenuList != undefined ? (
               <FlatList
-                data={initialdata}
+                data={FullMenuList}
                 keyExtractor={(item, index) => item.key}
                 renderItem={_renderItem}
               />

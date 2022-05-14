@@ -16,6 +16,7 @@ export default class Singleton {
   }
 
   async saveToken(token) {
+    alert(token)
     Singleton.getInstance().accessToken = token;
     await this.saveData(constants.ACCESS_TOKEN, token);
   }

@@ -8,8 +8,9 @@ import {
   import {LOGIN_USER_API_POST} from '../../EndPoints';
   import * as Constants from '../../Constants';
   import Singleton from '../../Singleton';
-  import {Actions} from 'react-native-router-flux';
-  import {APIClient} from '../../Api/APIClient';
+import { APIClient } from '../../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
   
   /**************************************Reset all prop values ****************************************************/
   
@@ -34,14 +35,14 @@ import {
             console.log('response_login===',result);
             loginSuccess(dispatch, result);
             resolve(result);
-            {result.message=='Email has been sent, please verify this email to allow this device.'?null:
-            Singleton.getInstance().saveData(Constants.ACCESS_TOKEN, result.JwtToken)
             Singleton.getInstance().saveData(Constants.IS_LOGIN, 'isLogin')
-            Singleton.getInstance().saveData(Constants.USERID, result.UserId)
-             }
+            console.log('userToken-----', result.object.sessionToken);
+            Singleton.getInstance().saveData(Constants.USERTOKEN, result.object.sessionToken)           
+             
           })
           .catch(error => {
             let errorMessage = error.message;
+            console.log('error_action===',error);
             loginFailed(dispatch, errorMessage);
             reject(errorMessage);
           });
