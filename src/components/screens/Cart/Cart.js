@@ -11,7 +11,7 @@ export const Cart = (props) =>{
     const [initialdata, setData] = useState(props?.addeditem);
     const [dataArray, setDataArray] = useState([]);
     const [cartItems, setCartItems] = useState('');
-  
+
   
     const selectHandler = (index, value) => {
       const newItems = initialdata;
