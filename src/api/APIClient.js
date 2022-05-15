@@ -11,13 +11,14 @@ const APIClient = class APIClient {
   //////////////////////////////////////////////////////////----GET METHOD---////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   get(endpoint, UserToken) {
+    console.log("userToken=>",UserToken)
     return new Promise((resolve, reject) => {
       fetch(`${BASE_URL}${endpoint}`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'api-access-token': UserToken,
+          'authorization':'Bearer ' + UserToken,
         },
       })
         .then(async res => {
@@ -33,7 +34,7 @@ const APIClient = class APIClient {
 
   //////////////////////////////////////////////////////////----POST METHOD---////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  post(endpoint, data, UserToken) {
+  post(endpoint, data) {
     console.log('END URL::', `${BASE_URL}${endpoint}`);
   
     return new Promise((resolve, reject) => {
@@ -42,7 +43,7 @@ const APIClient = class APIClient {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'api-access-token': UserToken,
+         // 'api-access-token': UserToken,
         },
         body: data != null ? JSON.stringify(data) : null,
       })

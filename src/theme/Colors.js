@@ -1,5 +1,5 @@
 const Colors = {
-    backgroundcolor:'#ffffff',
+    backgroundcolor:'#fff',
     redColor: "#D22F2B",
     buttonPrimaryTextColor: "#9493A5"
 
