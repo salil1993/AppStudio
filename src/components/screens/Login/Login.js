@@ -14,7 +14,7 @@ import {Colors, Fonts, Images} from '../../../theme';
 import styles from './LoginStyle';
 import {InputWithLabel, Button, PasswordInput, LoaderView} from '../../common';
 import {emailRegex, passwordRegEx} from '../../../Utils';
-import {useSelector, useDispatch} from 'react-redux';
+import {lector, useDispatch} from 'react-redux';
 import {showMessage} from 'react-native-flash-message';
 import Singleton from '../../../Singleton';
 import {COMMON_URL} from '../../../EndPoints';

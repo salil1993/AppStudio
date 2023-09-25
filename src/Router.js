@@ -71,7 +71,7 @@ export default class Routers extends Component {
             panHandlers={null}
           />
 
-<Scene
+         <Scene
             key="Cart"
             hideNavBar={true}
             component={Cart}
@@ -81,7 +81,7 @@ export default class Routers extends Component {
 
 
 
-          <Scene key="Main" hideNavBar>
+          <Scene key="Main" hideNavBar initial>
             <Tabs
               showLabel={false}
               lazy={true}
